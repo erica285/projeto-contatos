@@ -10,4 +10,13 @@
       <ion-title size="large">listar-contatos</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <h2>Lista de Contatos</h2>
+
+  <ul>
+    <li *ngFor="let user of usuarios">
+      <strong>{{ user.name }}</strong> — {{ user.email }}
+    </li>
+  </ul>
+
 </ion-content>

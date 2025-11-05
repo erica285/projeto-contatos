@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-listar-contatos',
@@ -11,10 +12,12 @@ import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/stan
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
 export class ListarContatosPage implements OnInit {
+  usuarios: any[] = [];
+  constructor(private apiService: ApiService) { }
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() : void{
+      this.apiService.getUsers().subscribe(res => {
+      this.usuarios = res;
+  });
+}
 }
