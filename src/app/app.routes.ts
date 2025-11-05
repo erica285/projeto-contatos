@@ -10,4 +10,12 @@ export const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full',
   },
+  {
+    path: 'listar-contatos',
+    loadComponent: () => import('./listar-contatos/listar-contatos.page').then( m => m.ListarContatosPage)
+  },
+  {
+    path: 'listar-contatos',
+    loadComponent: () => import('./listar-contatos/listar-contatos.page').then( m => m.ListarContatosPage)
+  },
 ];
