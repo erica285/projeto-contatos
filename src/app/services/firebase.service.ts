@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Database, ref, set, push, remove, onValue, update } from '@angular/fire/database';
+import { Firestore, collection, addDoc, collectionData, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 export interface Contato {
@@ -9,42 +9,31 @@ export interface Contato {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ContatoService {
+  private collectionName = 'contatos';
 
-  private dbPath = 'contatos';
-
-  constructor(private db: Database) {}
+  constructor(private firestore: Firestore) {}
 
   getContatos(): Observable<Contato[]> {
-    return new Observable((observer) => {
-      const contatosRef = ref(this.db, this.dbPath);
-
-      onValue(contatosRef, (snapshot) => {
-        const data = snapshot.val();
-        const lista: Contato[] = data
-          ? Object.keys(data).map(key => ({ id: key, ...data[key] }))
-          : [];
-
-        observer.next(lista);
-      });
-    });
+    const contatosRef = collection(this.firestore, this.collectionName);
+    return collectionData(contatosRef, { idField: 'id' }) as Observable<Contato[]>;
   }
 
   addContato(contato: Contato) {
-    const contatosRef = ref(this.db, this.dbPath);
-    const novoRef = push(contatosRef);
-    return set(novoRef, contato);
+    const contatosRef = collection(this.firestore, this.collectionName);
+    return addDoc(contatosRef, contato);
   }
 
   updateContato(contato: Contato) {
-    const contatoRef = ref(this.db, `${this.dbPath}/${contato.id}`);
-    return update(contatoRef, { nome: contato.nome, email: contato.email });
+    const contatoRef = doc(this.firestore, `${this.collectionName}/${contato.id}`);
+    const contatoData = { nome: contato.nome, email: contato.email };
+    return updateDoc(contatoRef, contatoData as any);
   }
 
   deleteContato(id: string) {
-    const contatoRef = ref(this.db, `${this.dbPath}/${id}`);
-    return remove(contatoRef);
+    const contatoRef = doc(this.firestore, `${this.collectionName}/${id}`);
+    return deleteDoc(contatoRef);
   }
 }

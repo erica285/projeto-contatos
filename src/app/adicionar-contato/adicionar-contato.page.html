@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Gerenciar Contatos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-item>
+    <ion-label position="floating">Nome</ion-label>
+    <ion-input [(ngModel)]="contato.nome"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">E-mail</ion-label>
+    <ion-input [(ngModel)]="contato.email"></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" (click)="salvarContato()">
+    {{ contato.id ? 'Atualizar Contato' : 'Adicionar Contato' }}
+  </ion-button>
+
+  <ion-button *ngIf="contato.id" expand="block" fill="clear" (click)="cancelarEdicao()">Cancelar Edição</ion-button>
+
+  <ion-list>
+    <ion-item *ngFor="let c of contatos">
+      <ion-label>
+        <h2>{{ c.nome }}</h2>
+        <p>{{ c.email }}</p>
+      </ion-label>
+      <ion-button fill="clear" color="warning" (click)="editarContato(c)">Editar</ion-button>
+      <ion-button fill="clear" color="danger" (click)="excluirContato(c.id)">Excluir</ion-button>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
+
+
