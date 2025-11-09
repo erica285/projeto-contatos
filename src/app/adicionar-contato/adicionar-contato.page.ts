@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonButton, IonIcon, IonListHeader } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonButton, IonInput } from '@ionic/angular/standalone';
 import { Contato, ContatoService } from '../services/firebase.service';
 import { ToastController } from '@ionic/angular';
 
@@ -10,21 +10,24 @@ import { ToastController } from '@ionic/angular';
   templateUrl: './adicionar-contato.page.html',
   styleUrls: ['./adicionar-contato.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonLabel, IonButton, IonIcon, IonListHeader]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonLabel, IonButton, IonInput]
 })
 export class AdicionarContatoPage implements OnInit {
 
   contatos: Contato[] = [];
+  contato: Contato = { nome: '', email: '' };
+
   constructor(private contatoService: ContatoService,
               private toastCtrl: ToastController
   ) { }
 
   ngOnInit() {
     this.contatoService.getContatos().subscribe(data => {
+      console.log('🔥 Dados do Firestore:', data);
       this.contatos = data;
     });
   }
-  contato: Contato = { nome: '', email: '' };
+  
 
   async salvarContato() {
     if (!this.contato.nome || !this.contato.email) {

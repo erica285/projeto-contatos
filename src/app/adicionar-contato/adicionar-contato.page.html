@@ -16,23 +16,33 @@
     <ion-input [(ngModel)]="contato.email"></ion-input>
   </ion-item>
 
-  <ion-button expand="block" (click)="salvarContato()">
-    {{ contato.id ? 'Atualizar Contato' : 'Adicionar Contato' }}
+  <ion-button expand="block" color="success" class="ion-margin-top" (click)="salvarContato()">
+    @if (contato.id) {
+      Atualizar Contato
+    } @else {
+      Adicionar Contato
+    }
   </ion-button>
 
-  <ion-button *ngIf="contato.id" expand="block" fill="clear" (click)="cancelarEdicao()">Cancelar Edição</ion-button>
-
-  <ion-list>
-    <ion-item *ngFor="let c of contatos">
-      <ion-label>
-        <h2>{{ c.nome }}</h2>
-        <p>{{ c.email }}</p>
-      </ion-label>
-      <ion-button fill="clear" color="warning" (click)="editarContato(c)">Editar</ion-button>
-      <ion-button fill="clear" color="danger" (click)="excluirContato(c.id)">Excluir</ion-button>
-    </ion-item>
+  <ion-list class="ion-margin-top">
+    @for (c of contatos; track c.id) {
+      <ion-item>
+        <ion-label>
+          <h2>{{ c.nome }}</h2>
+          <p>{{ c.email }}</p>
+        </ion-label>
+        <ion-button fill="clear" color="warning" (click)="editarContato(c)">
+          Editar
+        </ion-button>
+        <ion-button fill="clear" color="danger" (click)="excluirContato(c.id)">
+          Excluir
+        </ion-button>
+      </ion-item>
+    } @empty {
+      <ion-item>
+        <ion-label>Nenhum contato encontrado.</ion-label>
+      </ion-item>
+    }
   </ion-list>
 
 </ion-content>
-
-
