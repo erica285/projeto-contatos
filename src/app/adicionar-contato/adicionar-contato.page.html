@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Gerenciar Contatos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-item>
+    <ion-label position="floating">Nome</ion-label>
+    <ion-input [(ngModel)]="contato.nome"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">E-mail</ion-label>
+    <ion-input [(ngModel)]="contato.email"></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" color="success" class="ion-margin-top" (click)="salvarContato()">
+    @if (contato.id) {
+      Atualizar Contato
+    } @else {
+      Adicionar Contato
+    }
+  </ion-button>
+
+  <ion-list class="ion-margin-top">
+    @for (c of contatos; track c.id) {
+      <ion-item>
+        <ion-label>
+          <h2>{{ c.nome }}</h2>
+          <p>{{ c.email }}</p>
+        </ion-label>
+        <ion-button fill="clear" color="warning" (click)="editarContato(c)">
+          Editar
+        </ion-button>
+        <ion-button fill="clear" color="danger" (click)="excluirContato(c.id)">
+          Excluir
+        </ion-button>
+      </ion-item>
+    } @empty {
+      <ion-item>
+        <ion-label>Nenhum contato encontrado.</ion-label>
+      </ion-item>
+    }
+  </ion-list>
+
+</ion-content>

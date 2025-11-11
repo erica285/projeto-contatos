@@ -1,0 +1,8 @@
+"# projeto-contatos" 
+#   p r o j e t o - c o n t a t o s 
+
+Objetivo: Cadastrar contatos
+
+Tecnologias Utilizadas: Ionic, Firebase, Angular
+ 
+ 
